@@ -1,0 +1,19 @@
+========================================================
+ENTREGA - SPRINT 1 BACKEND
+SPI - Sistema de Visao Computacional Industrial
+========================================================
+
+INTEGRANTES DO GRUPO:
+--------------------------------------------------------
+Nome: Celso Fernando Ferrer Singh RM: 565643
+Nome: Juan Alberto Lenis Rodriguez  RM: 559744
+Nome: Rodrigo Arantes da Silva Philippi  RM: 557594
+Nome: Henrique Monteiro Khouri  RM: 555572
+Nome: Kagio Miura Neto  RM: 559212
+
+
+LINK DO REPOSITORIO BACKEND:
+--------------------------------------------------------
+GitHub: https://github.com/___________________________
+
+========================================================

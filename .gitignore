@@ -1,0 +1,14 @@
+target/
+data/
+*.class
+*.jar
+*.war
+.mvn/
+!**/src/main/**/target/
+!**/src/test/**/target/
+.idea/
+*.iml
+*.iws
+.vscode/
+.DS_Store
+spring-shell.log
