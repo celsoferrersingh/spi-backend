@@ -1,0 +1,56 @@
+### SPI - Sistema de Visao Computacional Industrial
+### Arquivo de testes da API (VS Code: extensao "REST Client")
+### Tambem serve de cola para montar as requisicoes no Postman / Insomnia.
+
+@host = http://localhost:8080
+
+### 1) Listar todas as ocorrencias  (usado pela tela de LISTA)
+GET {{host}}/ocorrencias
+Accept: application/json
+
+### 2) Listar so as abertas  (usado no Promise.all da lista)
+GET {{host}}/ocorrencias/status/ABERTA
+Accept: application/json
+
+### 3) Listar so as em analise  (usado no Promise.all da lista)
+GET {{host}}/ocorrencias/status/EM_ANALISE
+Accept: application/json
+
+### 4) Buscar por id  (usado pela tela de DETALHE)
+GET {{host}}/ocorrencias/1
+Accept: application/json
+
+### 5) Criar  (usado pela tela de CADASTRO)
+POST {{host}}/ocorrencias
+Content-Type: application/json
+
+{
+  "descricao": "Trinca detectada na solda do chassi #8812",
+  "tipoDefeito": "TRINCA",
+  "localizacao": "Linha A - Estacao 5",
+  "gravidadeNivel": 4,
+  "status": "ABERTA",
+  "dataHoraDeteccao": "2026-09-18T14:30:00",
+  "observacoes": "Detectado pela camera S-07"
+}
+
+### 6) Atualizar (opcional) - move o status para EM_ANALISE
+PUT {{host}}/ocorrencias/1
+Content-Type: application/json
+
+{
+  "descricao": "Trinca superficial detectada na peca #4471",
+  "tipoDefeito": "TRINCA",
+  "localizacao": "Linha A - Estacao 3",
+  "gravidadeNivel": 4,
+  "status": "EM_ANALISE",
+  "dataHoraDeteccao": "2026-09-18T10:30:00",
+  "imagemReferencia": "imagens/captura_4471.jpg",
+  "observacoes": "Detectado pelo sensor de camera S-03"
+}
+
+### 7) Excluir (opcional)
+DELETE {{host}}/ocorrencias/4
+
+### 8) Id que nao existe -> 404
+GET {{host}}/ocorrencias/9999

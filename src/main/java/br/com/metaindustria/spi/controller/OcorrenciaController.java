@@ -11,6 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ocorrencias")
+// SPRINT 3: libera o acesso a partir do app React Native (Expo).
+// Sem isso, a versao web do app e bloqueada pelo CORS do navegador.
+@CrossOrigin(origins = "*")
 public class OcorrenciaController {
 
     @Autowired
@@ -28,6 +31,14 @@ public class OcorrenciaController {
     public ResponseEntity<List<Ocorrencia>> listarTodas() {
         List<Ocorrencia> ocorrencias = ocorrenciaService.listarTodas();
         return ResponseEntity.ok(ocorrencias);
+    }
+
+    // SPRINT 3: GET /ocorrencias/status/{status} - Listar por status
+    // Usado pelos contadores "Abertas" e "Em Analise" da tela de lista,
+    // que o app busca em paralelo com Promise.all.
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Ocorrencia>> listarPorStatus(@PathVariable String status) {
+        return ResponseEntity.ok(ocorrenciaService.listarPorStatus(status));
     }
 
     // GET /ocorrencias/{id} - Buscar ocorrência por ID

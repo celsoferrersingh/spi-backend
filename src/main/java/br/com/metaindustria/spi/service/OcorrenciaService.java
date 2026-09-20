@@ -3,8 +3,10 @@ package br.com.metaindustria.spi.service;
 import br.com.metaindustria.spi.model.Ocorrencia;
 import br.com.metaindustria.spi.repository.OcorrenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,12 +18,25 @@ public class OcorrenciaService {
 
     // Criar nova ocorrência
     public Ocorrencia salvar(Ocorrencia ocorrencia) {
+        // SPRINT 3: o app envia o corpo sem id. Se a data de deteccao nao vier,
+        // o backend assume o momento do registro.
+        ocorrencia.setId(null);
+        if (ocorrencia.getDataHoraDeteccao() == null) {
+            ocorrencia.setDataHoraDeteccao(LocalDateTime.now());
+        }
         return ocorrenciaRepository.save(ocorrencia);
     }
 
-    // Listar todas as ocorrências
+    // Listar todas as ocorrências (mais recentes primeiro)
     public List<Ocorrencia> listarTodas() {
-        return ocorrenciaRepository.findAll();
+        return ocorrenciaRepository.findAll(
+                Sort.by(Sort.Direction.DESC, "dataHoraDeteccao"));
+    }
+
+    // SPRINT 3: listar apenas as de um status (ABERTA, EM_ANALISE, RESOLVIDA)
+    public List<Ocorrencia> listarPorStatus(String status) {
+        return ocorrenciaRepository.findByStatusOrderByDataHoraDeteccaoDesc(
+                status == null ? null : status.toUpperCase());
     }
 
     // Buscar ocorrência por ID
@@ -37,7 +52,9 @@ public class OcorrenciaService {
             ocorrenciaExistente.setLocalizacao(dadosAtualizados.getLocalizacao());
             ocorrenciaExistente.setGravidadeNivel(dadosAtualizados.getGravidadeNivel());
             ocorrenciaExistente.setStatus(dadosAtualizados.getStatus());
-            ocorrenciaExistente.setDataHoraDeteccao(dadosAtualizados.getDataHoraDeteccao());
+            if (dadosAtualizados.getDataHoraDeteccao() != null) {
+                ocorrenciaExistente.setDataHoraDeteccao(dadosAtualizados.getDataHoraDeteccao());
+            }
             ocorrenciaExistente.setImagemReferencia(dadosAtualizados.getImagemReferencia());
             ocorrenciaExistente.setObservacoes(dadosAtualizados.getObservacoes());
             return ocorrenciaRepository.save(ocorrenciaExistente);
